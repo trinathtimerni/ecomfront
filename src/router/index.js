@@ -4,8 +4,6 @@ import Home from '../views/Home.vue'
 import App from '../views/Layout.vue'
 
 Vue.use(VueRouter)
-// let Picker = ()=>import("../components/helpers/Loader.vue")
-// Vue.component("loading", Picker)
 
 const routes = [
   {
@@ -39,7 +37,7 @@ const routes = [
         name: 'CategoryViewPage',
         component: () => import('../views/CategoryViewPage.vue'),
         meta: {
-          title: 'ClassyPicker Category Page',
+          title: 'Wedevs Category Page',
         }
       },
       {
@@ -48,27 +46,10 @@ const routes = [
         name: 'CategoryProduct',
         component: () => import('../views/CategoryProduct.vue'),
         meta: {
-          title: 'ClassyPicker Category Product',
+          title: 'Wedevs Category Product',
         }
       },
-      {
-        path: '/department_product/:id?',
-        props: true,
-        name: 'DepartmentProduct',
-        component: () => import('../views/DepartmentProduct.vue'),
-        meta: {
-          title: 'ClassyPicker Department Product',
-        }
-      },
-      {
-        path: '/brand_product/:id?',
-        props: true,
-        name: 'BrandProduct',
-        component: () => import('../views/BrandProduct.vue'),
-        meta: {
-          title: 'ClassyPicker Brand Product',
-        }
-      },
+      
       {
         path: '/product_info/:id?',
         name: 'Product',
@@ -108,36 +89,6 @@ const routes = [
         component: () => import('../views/AddressBookPage.vue')
       },
       {
-        path: '/add_address',
-        name: 'AddAddress',
-        meta: { title: "Add Address", requiresAuth: true },
-        component: () => import('../views/AddAddressPage.vue')
-      },
-      {
-        path: '/edit_address/:id?',
-        name: 'EditAddress',
-        meta: { title: "Edit Address", requiresAuth: true },
-        component: () => import('../views/EditAddressPage.vue')
-      },
-      {
-        path: '/personal_details',
-        name: 'PersonalDetails',
-        meta: { title: "Personal Details", requiresAuth: true },
-        component: () => import('../views/PersonalDetailsPage.vue')
-      },
-      {
-        path: '/edit_password',
-        name: 'EditPassword',
-        meta: { title: "Edit Password", requiresAuth: true },
-        component: () => import('../views/EditPasswordPage.vue')
-      },
-      {
-        path: '/wish_list',
-        name: 'WishList',
-        meta: { title: "Wish List", requiresAuth: true },
-        component: () => import('../views/WishListPage.vue')
-      },
-      {
         path: '/my_orders',
         name: 'MyOrders',
         meta: { title: "My Orders", requiresAuth: true },
@@ -150,16 +101,80 @@ const routes = [
     ]
   },
   {
-    path: '/offers',
-    name: 'Offer',
-    component: () => import('../views/Offer.vue')
-  },
+    path: "/dashboard",
+    name: "Dashboard",
+    component: DashboardLayout,
+    meta: {
+      requiresAuth: true,
+      is_admin: true,
+    },
+    redirect: "/dashboard/products",
+    children: [
+      {
+        meta: { title: "Product", requiresAuth: true, is_admin: true },
+        path: "/dashboard/products",
+
+        component: DashbdProduct,
+      },
+      {
+        meta: { title: "Product Add", requiresAuth: true, is_admin: true },
+        path: "/dashboard/products-create",
+
+        component: DashbdProductAdd,
+      },
+      {
+        meta: { title: "Product Update", requiresAuth: true, is_admin: true },
+        path: "/dashboard/product-update/:id",
+
+        component: DashbdProductUpdate,
+      },
+      {
+        meta: { title: "Categories", requiresAuth: true, is_admin: true },
+        path: "/dashboard/Categories",
+
+        component: Categories,
+      },
+      {
+        meta: { title: "Category Add", requiresAuth: true, is_admin: true },
+        path: "/dashboard/category-create",
+
+        component: CategoryAdd,
+      },
+      {
+        meta: {
+          title: "Category Update",
+          requiresAuth: true,
+          is_admin: true,
+        },
+        path: "/dashboard/category-update/:id",
+
+        component: CategoryUpdate,
+      },
+      {
+        meta: { title: "Brands", requiresAuth: true, is_admin: true },
+        path: "/dashboard/brands",
+
+        component: Brands,
+      },
+      {
+        meta: { title: "Brand Add", requiresAuth: true, is_admin: true },
+        path: "/dashboard/brand-create",
+
+        component: BrandAdd,
+      },
+      {
+        meta: { title: "Brand Update", requiresAuth: true, is_admin: true },
+        path: "/dashboard/brand-update:/id",
+
+        component: BrandUpdate,
+      },
+    ]
+  }
 ]
 
 const router = new VueRouter({
   mode: 'history',
-  routes,
-  
+  routes,  
 })
 
 router.beforeEach((to, from, next) => {
@@ -170,7 +185,16 @@ router.beforeEach((to, from, next) => {
         params: { nextUrl: to.fullPath },
       });
     } else {
+      let user = JSON.parse(localStorage.getItem("user_data"));
+      if (to.matched.some((record) => record.meta.is_admin)) {
+        if (user.type == 1) { //admin check
+          next();
+        } else {
+          next({ path: "/" });
+        }
+      } else {
         next();
+      }
     }
   } else if (to.matched.some((record) => record.meta.guest)) {
     if (localStorage.getItem("auth_token") == null) {
