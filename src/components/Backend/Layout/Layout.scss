@@ -1,8 +1,8 @@
-@import "../../../styles/app.scss";
+@import '../../../styles/app';
 
-.v-main__wrap {
-  padding: 70px $content-padding $content-padding;
-}
+// .v-main__wrap {
+//   padding: 70px $content-padding $content-padding;
+// }
 .content {
   background-color: #fff;
   .content {
@@ -10,4 +10,7 @@
     min-height: 100vh;
     max-height: 100%;
   }
+}
+.v-btn:not(.v-btn--round).v-size--default {
+  height:37px!important;
 }

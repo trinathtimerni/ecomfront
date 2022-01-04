@@ -60,13 +60,9 @@
 <script>
 // Utilities
 import { mapMutations,mapState,mapActions } from "vuex";
-import loader from "../../components/helpers/loader.vue";
 
 export default {
   name: "CoreAppBar",
-  componenets: {
-    loader
-  },
   data: () => ({
     activeOverlay: false,
     drawer: false,
@@ -87,11 +83,6 @@ export default {
   },
   methods: {
     ...mapActions("category",["getCategories"]),
-    // datashow(){
-    //     axios.get('api/all_cat_sub_chid').then((response) => {
-    //   console.log(response);
-    // })
-    // },
     ...mapMutations(["toggleDrawer"]),
     onClick(e, item) {
       e.stopPropagation();

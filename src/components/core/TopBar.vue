@@ -103,7 +103,7 @@
               <a @click="toHome()">
                 <img
                   height="50"
-                  :src="require('@/assets/img/Final-logo.png')"
+                  :src="require('@/assets/img/Final-logo.svg')"
                 />
               </a>
             </div>
@@ -266,43 +266,6 @@
           </div>
       </div>
     </v-container>
-   
-   <!-- <v-container>
-     <div class="search-list">
-     <div class="search-main">
-       <div class="search-keywords">
-         <p class="title-keywords">Suggested Keywords</p>
-         <ul>
-            <li></li>
-         </ul>
-       </div>
-       <div class="search-product-list">
-         <p class="search-title">Matching Product</p>
-         <div>
-           <a class="search-product-item">
-             <div class="search-item-product">
-               <img>
-               <div class="search-product-info">
-                 <div class="search-product-main">
-                   <p class="search-product-title">
-                      this is test product
-                   </p>
-                   <span class="search-product-promo">
-                     save $5 every spend 
-                   </span>
-                 </div>
-               </div>
-               <div class="search-product-price">
-                 $190
-               </div>
-               </div>
-           </a>
-         </div>
-       </div>
-       </div>
-     </div>
-   </v-container> -->
-
     <v-scroll-x-reverse-transition>
       <div id="chat-panel" v-if="showCart">
         <div id="before-submission">
@@ -312,7 +275,7 @@
                 <p class="mbottom">Your Cart</p>
                 <p>
                   <v-icon
-                    style="background-color: #000"
+                    style="background-color: #000!important"
                     color="white"
                     @click="showCart = false"
                     >mdi-close</v-icon
@@ -324,7 +287,7 @@
             <div id="chat-panel-message" v-if="carts.length > 0">
               <div v-for="(cart, index) in carts" :key="index" class="check-item bl-b">
                 <div style="min-width: 50px; margin-right: 5px">
-                  <img :src="`${baseEnvLocal}${cart.main_image}`" alt="item" />
+                  <img :src="`${baseEnvLocal}${cart.product.main_image}`" alt="item" />
                 </div>
                 <div>
                   <div class="item-heading">
@@ -333,9 +296,9 @@
                         class="w-70 mb-n3"
                         style="font-weight: 200; font-size: 14px"
                       >
-                        {{cart.name}}
+                        {{cart.product.name}}
                       </p>
-                      <a @click="removeCart(cart.cart_id)" style="color: black" class="remove"
+                      <a @click="removeCart(cart.id)" style="color: black" class="remove"
                         ><v-icon color="black">
                           mdi-trash-can-outline
                         </v-icon></a
@@ -344,7 +307,7 @@
                   </div>
 
                   <div class="amount mt-2">
-                    <p>$ {{cart.cart_price}}</p>
+                    <p>$ {{cart.price}}</p>
                   </div>
 
                   <div>
@@ -366,7 +329,7 @@
                             readonly
                             type="text"
                             class="btn-up input-number"
-                            v-model="cart.cart_quantity"
+                            v-model="cart.quantity"
                           />
                         </div>
 
@@ -433,8 +396,8 @@
       @click="showCart = !showCart"
       class="basket-button d-flex flex-column-reverse">
     <div class="total">
-      <span class="mr-1">$</span>
-      <span>{{carts.reduce((acc, item) => acc + item.cart_price, 0)}}</span>
+      <span class="mr-1"></span>
+      <span>{{ carts.length > 0 ? carts.reduce((acc, item) => acc + item.price, 0) : 0}} Tk</span>
     </div>
     <div class="item-count">
       <v-icon class="ml-5">mdi-shopping</v-icon>
@@ -482,12 +445,6 @@ export default {
     cart_drawer: false,
   }),
   async created() {
-    // await this.$store.dispatch("category/getCategories");
-    // this.categories = this.$store.getters["category/categories"];
-    // let res = JSON.parse(localStorage.getItem("user_data"));
-    // this.user = res
-    // console.log(this.user.name,this.user);
-    // console.log("storage data",localStorage.getItem("user_data"))
     this.getCarts();
     this.getUser();
     this.getCategories();
@@ -600,18 +557,18 @@ export default {
     },
      incrementQuantity(item) {
       this.carts.forEach((element) => {
-        if (element.pro_id == item.id) {
+        if (element.id == item.id) {
           this.temp = element;
         }
       });
 
-      if (this.temp.cart_quantity >= 0) {
-        let cart_price = (this.temp.cart_quantity + 1) * this.temp.product_price
+      if (this.temp.product.quantity >= 0) {
+        let cart_price = (this.temp.quantity + 1) * this.temp.product.price
         let data = {
-          cart_id: this.temp.cart_id,
+          cart_id: this.temp.id,
           price: cart_price,
-          product_id: this.temp.pro_id,
-          quantity: this.temp.cart_quantity + 1,
+          product_id: this.temp.product.id,
+          quantity: this.temp.quantity + 1,
         };
 
         this.$store.dispatch("cart/UpdateCart", data).then(this.getCarts());
@@ -621,19 +578,19 @@ export default {
     },
     decrementQuantity(item) {
       this.carts.forEach((element) => {
-        if (element.pro_id == item.id) {
+        if (element.id == item.id) {
           this.temp_decrement = element;
         }
       });
-      if (this.temp_decrement.cart_quantity <= 1) {
+      if (this.temp_decrement.product.quantity <= 1) {
         return;
       }
-      let cart_price = (this.temp_decrement.cart_quantity - 1) * this.temp_decrement.product_price
+      let cart_price = (this.temp_decrement.quantity - 1) * this.temp_decrement.product.price
       let data = {
-        cart_id: this.temp_decrement.cart_id,
-        product_id: this.temp_decrement.pro_id,
+        cart_id: this.temp_decrement.id,
+        product_id: this.temp_decrement.product.id,
         price: cart_price,
-        quantity: this.temp_decrement.cart_quantity - 1,
+        quantity: this.temp_decrement.quantity - 1,
       };
 
       this.$store.dispatch("cart/UpdateCart", data).then(this.getCarts());
@@ -1321,7 +1278,7 @@ export default {
 }
 
 #before-submission #submitQuery {
-  background-color: #000;
+  background-color: #000!important;
   border: none;
   overflow:unset!important;
   padding:15px;

@@ -2,7 +2,7 @@
   <v-app class="pa-6">
     <Header />
     <Sidebar />
-    <v-main class="content">
+    <v-main class="content" style="padding-top:70px">
       <router-view />
     </v-main>
     <Footer />
@@ -28,8 +28,8 @@ export default {
         localStorage.getItem("auth_token") !== null &&
         localStorage.getItem("auth_token") !== undefined
       ) {
-        this.axios
-          .get(Config.BASE_URL + "/api/check-login", {
+        axios
+          .get("/api/check-login", {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("auth_token"),
             },
@@ -39,7 +39,6 @@ export default {
               localStorage.removeItem("auth_token");
               localStorage.removeItem("is_authenticated");
               localStorage.removeItem("user_data");
-
               this.$router.push("/login");
             }
           })

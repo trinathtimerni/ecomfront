@@ -39,16 +39,16 @@
             </div>
             <div class="check-item bl-b" v-for="(cart, index) in carts" :key="index">
               <div>
-                <img :src="`${baseEnvLocal}${cart.main_image}`" alt="item" />
+                <img :src="`${baseEnvLocal}${cart.product.main_image}`" alt="item" />
               </div>
               <div>
                 <div class="item-heading">
                   <div class="d-item-flex">
                     <p class="w-70 mb-n3">
-                      {{cart.name}}
+                      {{cart.product.name}}
                     </p>
                     <a
-                      @click="removeCart(cart.cart_id)"
+                      @click="removeCart(cart.id)"
                       style="color: black; text-decoration: underline"
                       class="remove"
                       >Remove item</a
@@ -75,7 +75,7 @@
                           type="text"
                           id="myNumber"
                           class="btn-up input-number"
-                          v-model="cart.cart_quantity"
+                          v-model="cart.quantity"
                         />
                       </div>
 
@@ -88,7 +88,7 @@
                       </div>
                     </div>
                     <div class="amount">
-                      <p>£{{cart.cart_price}}</p>
+                      <p>{{cart.price}}Tk</p>
                     </div>
                   </div>
                 </div>
@@ -171,19 +171,18 @@
                       letter-spacing: 1px;
                     "
                   >
-                    Spend a further £17.01 to qualify for FREE Standard UK
-                    mainland delivery. Our Click & collect service is FREE for
-                    orders over £30
+                    Our Click & collect service is FREE for
+                    orders over 1000 tk
                   </p>
                   <p class="mb-n2">
-                    &#10003; Free Standard UK Mainland delivery
+                    &#10003; Free Standard delivery
                   </p>
                   <p>More delivery options at checkout</p>
                 </div>
               </div>
               <div class="total-cal">
                 <p>Total (excluding delivery):</p>
-                <p>£ {{carts.reduce((acc, item) => acc + item.cart_price, 0)}}</p>
+                <p>{{carts.reduce((acc, item) => acc + item.price, 0)}} Tk</p>
               </div>
 
               <div class="add-to-busket">

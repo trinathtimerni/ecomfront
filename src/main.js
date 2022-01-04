@@ -11,6 +11,13 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import VueSimpleAccordion from 'vue-simple-accordion'
 import 'vue-simple-accordion/dist/vue-simple-accordion.css'
 
+import VueMoment from "vue-moment";
+import moment from "moment-timezone";
+
+Vue.use(VueMoment, {
+  moment,
+});
+
 // VUEPR SLIDE
 
 
@@ -26,8 +33,8 @@ if (accessToken) {
   console.log(accessToken)
   axios.defaults.headers.common["Authorization"] = "Bearer " + accessToken;
 }
-axios.defaults.baseURL = "http://127.0.0.1:8085";
-window.baseEnv = "http://127.0.0.1:8085"
+axios.defaults.baseURL = "http://127.0.0.1:8000/";
+window.baseEnv = "http://127.0.0.1:8000/"
 
 
 // ZOOM
@@ -38,26 +45,11 @@ Vue.component('image-zoom', ImageZoom);
 import VueSocialSharing from 'vue-social-sharing'
 Vue.use(VueSocialSharing);
 
-// BASE URL ->
-
-// Axios.defaults.baseURL = "http://eback.timetechri.co.uk/";
-// <- BASE URL
-
-// META IMPORT
-// import './assets/js/jquery-3.6.0.min.js';
-// import './assets/js/bootstrap.min.js';
-// import './assets/js/main.js';
-// import './assets/js/owl.carousel.min.js';
-
-
 
 require('./assets/css/all.min.css');
 require('./assets/css/bootstrap.min.css');
 require('./assets/css/header.css');
 require('./assets/css/home.css');
-// require('./assets/css/owl.carousel.min.css');
-// require('./assets/css/owl.theme.default.min.css');
-// require('./assets/css/responsive.css');
 require('./assets/css/style.css');
 require('./assets/css/Untitled-1.css');
 require('./assets/css/offer.css');

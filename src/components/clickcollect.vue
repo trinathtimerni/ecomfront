@@ -607,13 +607,13 @@
           :key="index"
         >
           <div>
-            <img :src="`${baseEnvLocal}${cart.main_image}`" alt="item" />
+            <img :src="`${baseEnvLocal}${cart.product.main_image}`" alt="item" />
           </div>
           <div>
             <div class="item-heading check-content">
               <div class="d-item-flex">
                 <p class="w-70 mb-n3">
-                  {{ cart.name }}
+                  {{ cart.product.name }}
                 </p>
               </div>
             </div>
@@ -624,11 +624,11 @@
                 <input
                   class="border-none"
                   type="text"
-                  v-model="cart.cart_quantity"
+                  v-model="cart.quantity"
                   readonly
                 />
               </p>
-              <span class="float-right mt-4">$ {{ cart.cart_price }}</span>
+              <span class="float-right mt-4">$ {{ cart.price }}</span>
             </div>
           </div>
         </div>
@@ -636,7 +636,7 @@
           <p class="mb-n2 mt-4">
             Basket Total:
             <span class="border-none float-right">
-              $ {{ carts.reduce((acc, item) => acc + item.cart_price, 0) }}
+              $ {{ carts.reduce((acc, item) => acc + item.price, 0) }}
             </span>
           </p>
           </div>

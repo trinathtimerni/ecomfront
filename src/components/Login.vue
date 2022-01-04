@@ -7,7 +7,7 @@
       <p style="font-size: 17px; font-weight: 600">Sign In</p>
     </div>
     
-    <div class="col-md-4 col-lg-3 px-7 mx-auto">
+    <div class="col-md-6 col-lg-4 px-7 mx-auto">
       <div style="margin-top: 50px">
         <div v-if="error" class="align-center p-1 mb-2" style="background-color:red">
                         <a class="ml-5"><span style="color:white">{{error}}</span></a>
@@ -150,10 +150,17 @@ export default {
         .then((response) => {
           this.$refs.form.validate();
           if(response.data.success){
+            console.log("ami data paichi",response.data.user.type);
             this.saveStorageData(response.data);
             this.loading = false
-            this.$store.dispatch("cart/getCarts")
-            this.$router.push("/account");
+            
+            if(response.data.user.user_type == 1){
+              this.$router.push("/dashboard");
+            }
+            else{
+              this.$store.dispatch("cart/getCarts")
+              this.$router.push("/account");
+            }
           }
           else{
             this.loading = false;

@@ -12,16 +12,14 @@
                   <v-alert type="success">{{message}}</v-alert>
                 </v-col>
               </v-spacer>
-              <v-btn color="primary" dark class="mb-2" to="/dashboard/category-create">New Category</v-btn>
+              <v-btn color="primary" dark class="mb-2" to="/dashboard/add_category">New Category</v-btn>
             </v-toolbar>
           </template>
           <template v-slot:body="{ items }">
             <tbody>
               <tr v-for="item in items" :key="item.name">
-                <td>{{ item.title }}</td>
-                <td v-if="item.parent == null">None</td>
-                <td v-else>{{ item.parent.title }}</td>
-                <td>{{ item.featured == 1 ? 'Yes' : 'No' }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.description }}</td>
                 <td>{{ $moment(item.created_at).format('MMMM Do YYYY, h:mm:ss A') }}</td>
 
                 <td>{{ $moment(item.updated_at).format('MMMM Do YYYY, h:mm:ss A') }}</td>
@@ -66,8 +64,7 @@ export default {
           sortable: false,
           value: "title",
         },
-        { text: "Parent", value: "parent" },
-        { text: "Featured", value: "featured" },
+        { text: "Description", value: "description" },
         { text: "Created Date", value: "created_at" },
         { text: "Updated Date", value: "updated_at" },
 
@@ -80,11 +77,11 @@ export default {
   },
 
   created() {
-    this.Data();
+    this.GetCats();
   },
 
   methods: {
-    ...mapActions("category", ["Data"]),
+    ...mapActions("category", ["GetCats"]),
 
     removeCategory(id) {
       if (confirm("Are you sure?")) {

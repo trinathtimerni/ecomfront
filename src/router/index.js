@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import App from '../views/Layout.vue'
+import DashboardLayout from "@/components/Backend/Layout/Layout";
 
 Vue.use(VueRouter)
 
@@ -108,66 +109,39 @@ const routes = [
       requiresAuth: true,
       is_admin: true,
     },
-    redirect: "/dashboard/products",
+    // redirect: "/dashboard/products",
     children: [
       {
         meta: { title: "Product", requiresAuth: true, is_admin: true },
         path: "/dashboard/products",
-
-        component: DashbdProduct,
+        name: "productList",
+        component: () => import('../views/Backend/Products/Index.vue')
       },
       {
-        meta: { title: "Product Add", requiresAuth: true, is_admin: true },
-        path: "/dashboard/products-create",
-
-        component: DashbdProductAdd,
+        meta: { title: "Add Product", requiresAuth: true, is_admin: true },
+        path: "/dashboard/add_product",
+        name: "AddProduct",
+        component: () => import('../views/Backend/Products/Add.vue')
       },
       {
-        meta: { title: "Product Update", requiresAuth: true, is_admin: true },
-        path: "/dashboard/product-update/:id",
-
-        component: DashbdProductUpdate,
+        meta: { title: "Edit Product", requiresAuth: true, is_admin: true },
+        path: "/dashboard/edit_product/:id?",
+        name: "EditProduct",
+        component: () => import('../views/Backend/Products/Update.vue')
       },
       {
-        meta: { title: "Categories", requiresAuth: true, is_admin: true },
-        path: "/dashboard/Categories",
-
-        component: Categories,
+        meta: { title: "Category", requiresAuth: true, is_admin: true },
+        path: "/dashboard/categories",
+        name: "categoryList",
+        component: () => import('../views/Backend/Categories/Index.vue')
       },
       {
-        meta: { title: "Category Add", requiresAuth: true, is_admin: true },
-        path: "/dashboard/category-create",
-
-        component: CategoryAdd,
+        meta: { title: "Add Category", requiresAuth: true, is_admin: true },
+        path: "/dashboard/add_category",
+        name: "AddCategory",
+        component: () => import('../views/Backend/Categories/Add.vue')
       },
-      {
-        meta: {
-          title: "Category Update",
-          requiresAuth: true,
-          is_admin: true,
-        },
-        path: "/dashboard/category-update/:id",
 
-        component: CategoryUpdate,
-      },
-      {
-        meta: { title: "Brands", requiresAuth: true, is_admin: true },
-        path: "/dashboard/brands",
-
-        component: Brands,
-      },
-      {
-        meta: { title: "Brand Add", requiresAuth: true, is_admin: true },
-        path: "/dashboard/brand-create",
-
-        component: BrandAdd,
-      },
-      {
-        meta: { title: "Brand Update", requiresAuth: true, is_admin: true },
-        path: "/dashboard/brand-update:/id",
-
-        component: BrandUpdate,
-      },
     ]
   }
 ]
@@ -187,7 +161,7 @@ router.beforeEach((to, from, next) => {
     } else {
       let user = JSON.parse(localStorage.getItem("user_data"));
       if (to.matched.some((record) => record.meta.is_admin)) {
-        if (user.type == 1) { //admin check
+        if (user.user_type == 1) { //admin check
           next();
         } else {
           next({ path: "/" });

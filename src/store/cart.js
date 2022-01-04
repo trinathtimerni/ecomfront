@@ -30,16 +30,11 @@ export default {
         UpdateCart()
         {
         },
-        LOADER(state,payload){
-          state.loader = payload
-        }
     },
 
     actions: {
         getCarts({ commit }) {
-          commit('LOADER',true)
             return new Promise((resolve, reject) => {
-              console.log(localStorage.getItem("guest_id"))
               let user = JSON.parse(localStorage.getItem("user_data"))
               if(user != null){
                 user = user.id;
@@ -52,11 +47,9 @@ export default {
                 console.log(res.data)
                 resolve(res);
                   commit("populateCart",res.data);
-                  commit('LOADER',false)
             })
                 .catch((error) => {
                   reject(error);
-                  commit('LOADER',true)
                 });
             });
           },
@@ -69,11 +62,9 @@ export default {
                   console.log(result)
                   resolve(result);
                   commit("SaveCart");
-                  commit('LOADER',false)
                 })
                 .catch((error) => {
                   reject(error);
-                  commit('LOADER',false)
                 });
             });
           },
@@ -94,7 +85,6 @@ export default {
             });
           },
           DeleteCart({ commit }, id) {
-            commit('LOADER',true)
             return new Promise((resolve, reject) => {
               console.log(id);
               axios
@@ -104,28 +94,23 @@ export default {
                 .then((result) => {
                   resolve(result);
                   commit("ShowCart", result.data.cart);
-                  commit('LOADER',false)
                 })
                 .catch((error) => {
                   reject(error);
-                  commit('LOADER',false)
                 });
             });
           },
         
           UpdateCart({ commit }, data) {
-            commit('LOADER',true)
             return new Promise((resolve, reject) => {
               axios
                 .post('/api/product/update_products_cart', data)
                 .then((result) => {
                   resolve(result);
                   commit("UpdateCart");
-                  commit('LOADER',false)
                 })
                 .catch((error) => {
                   reject(error);
-                  commit('LOADER',false)
                 });
             });
           },

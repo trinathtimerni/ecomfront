@@ -95,7 +95,7 @@ body{
 }
 .add-to-busket .add-to-busket{
     width: 100%;
-    background: #000;
+    background: #000!important;
     padding: 8px 15px;
     color: #fff;
     font-size: 16px;

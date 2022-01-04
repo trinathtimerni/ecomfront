@@ -64,23 +64,26 @@ export default {
         populateCouponDiscount(state,discount){
             state.discount = discount
         },
+        PRODUCT_DATA(state, products) {
+            state.products = products;
+          },
+          DATA_SEARCH(state, products) {
+            state.product_by_category = products;
+          },
+          // eslint-disable-next-line no-unused-vars
+          SHOW(state, product) {
+            state.product = product;
+          },
+          // eslint-disable-next-line no-unused-vars
+          CREATED(state) {},
+          // eslint-disable-next-line no-unused-vars
+          UPDATE(state) {},
         LOADER(state,payload){
             state.loader = payload
         }
     },
 
     actions: {
-        // async getCategoryProducts(ctx,Apiarg){
-        //     console.log(Apiarg)
-        //     let products = await axios.post('api/product/get_category_products',Apiarg)
-        //     .then(res => {
-        //         console.log(res.data)
-        //         return res.data;
-        //     })
-        //     .catch(error => console.log(error));
-
-        //     ctx.commit('populateCategoryProduct', products);
-        // },
         getCategoryProducts({ commit }, Apiarg) {
             commit('LOADER',true)
             return new Promise((resolve, reject) => {
@@ -148,12 +151,7 @@ export default {
                   commit("populateProductGalleryImages",res.data);
                   commit('LOADER',false)
             })
-            //   axios
-            //     .post(Config.BASE_URL + "/api/product", data)
-            //     .then((result) => {
-            //       resolve(result);
-            //       commit("CREATED");
-            //     })
+            
                 .catch((error) => {
                   reject(error);
                 });
@@ -170,12 +168,6 @@ export default {
                   commit("populateProductDetails",res.data);
                   commit('LOADER',false)
             })
-            //   axios
-            //     .post(Config.BASE_URL + "/api/product", data)
-            //     .then((result) => {
-            //       resolve(result);
-            //       commit("CREATED");
-            //     })
                 .catch((error) => {
                   reject(error);
                   commit('LOADER',false)
@@ -195,19 +187,7 @@ export default {
             });
           });
         },
-        getSpecialDays({commit}){
-            return new Promise((resolve, reject) => {
-                axios.get('api/special-days')
-            .then(res => {
-                console.log(res.data)
-                resolve(res);
-                  commit("populateSpecialDays",res.data);
-            })
-            .catch((error) => {
-              reject(error);
-            });
-          });
-        },
+        
         getCouponDiscount({commit},data){
             return new Promise((resolve,reject)=>{
                 axios.post('api/get_coupon_discount',data)
@@ -220,6 +200,92 @@ export default {
               reject(error);
             });
             });
-        }
+        },
+        GetProducts({ commit }) {
+            return new Promise((resolve, reject) => {
+              axios
+                .get("/api/product")
+                .then((result) => {
+                  console.log(result.data.products.data);
+                  resolve(result);
+                  commit("PRODUCT_DATA", result.data.products.data);
+                })
+                .catch((error) => {
+                  reject(error);
+                });
+            });
+          },
+          AddProduct({ commit }, data) {
+            return new Promise((resolve, reject) => {
+              axios
+                .post("/api/product", data)
+                .then((result) => {
+                  resolve(result);
+                  commit("CREATED");
+                })
+                .catch((error) => {
+                  reject(error);
+                });
+            });
+          },
+
+          UpdateProduct({ commit }, data) {
+            return new Promise((resolve, reject) => {
+              axios
+                .post("/api/update_product", data)
+                .then((result) => {
+                  resolve(result);
+                  commit("UPDATE");
+                })
+                .catch((error) => {
+                  reject(error);
+                });
+            });
+          },
+        
+          DataSearch({ commit }, search_params) {
+            return new Promise((resolve, reject) => {
+              axios
+                .get(
+                  Config.BASE_URL +
+                    "/api/product/search-products?page=1&category_id=" +
+                    (search_params ? search_params : "")
+                )
+                .then((result) => {
+                  resolve(result);
+                  commit("DATA_SEARCH", result.data.products.data);
+                })
+                .catch((error) => {
+                  reject(error);
+                });
+            });
+          },
+          Show({ commit }, id) {
+            return new Promise((resolve, reject) => {
+              console.log(id);
+              axios
+                .get("/api/product/" + id)
+                .then((result) => {
+                  resolve(result);
+                  commit("SHOW", result.data.product);
+                })
+                .catch((error) => {
+                  reject(error);
+                });
+            });
+          },
+          Delete({ commit }, id) {
+            return new Promise((resolve, reject) => {
+              axios
+                .delete("/api/product/" + id)
+                .then((result) => {
+                  resolve(result);
+                  commit("SHOW", result.data.product);
+                })
+                .catch((error) => {
+                  reject(error);
+                });
+            });
+          },
     }
 }

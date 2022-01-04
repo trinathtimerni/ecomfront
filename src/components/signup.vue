@@ -7,7 +7,7 @@
       <p style="font-size: 17px; font-weight: 600; letter-spacing:2px;">CREATE AN ACCOUNT</p>
     </div>
     
-    <div class="col-md-4 col-lg-3 px-7 mx-auto">
+    <div class="col-md-6 col-lg-4 px-7 mx-auto">
       <div style="margin-top: 50px">
         <div v-if="error" class="align-center p-1 mb-2" style="background-color:red">
                         <a class="ml-5"><span style="color:white">{{error}}</span></a>
@@ -118,7 +118,7 @@ export default {
     ],
     nameRules: [
       (v) => !!v || "Name is required",
-      (v) => v.length >= 8 || "Name requires at least 3 characters",
+      (v) => v.length >= 3 || "Name requires at least 3 characters",
     ],
     phoneRules: [
       (v) => !!v || "Phone is required",

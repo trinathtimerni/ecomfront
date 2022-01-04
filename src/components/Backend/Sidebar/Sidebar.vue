@@ -13,8 +13,7 @@
   >
     <v-list-item>
       <v-list-item-content>
-        <v-list-item-title class="text-h6">Application</v-list-item-title>
-        <v-list-item-subtitle>this my Store</v-list-item-subtitle>
+        <v-list-item-title class="text-h6">Wedevs</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
 

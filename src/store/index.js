@@ -10,6 +10,7 @@ import user from "./user"
 import order from "./order"
 import cart from "./cart"
 import homepage from "./homepage"
+import adminlayout from "./adminlayout"
 
 Vue.use(Vuex);
 
@@ -26,5 +27,6 @@ export default new Vuex.Store({
     address: address,
     wishlist: wishlist,
     homepage: homepage,
+    adminlayout: adminlayout,
   }
 });

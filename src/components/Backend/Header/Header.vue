@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar class="main-header" height="64" fixed flat light color="secondary">
+  <v-app-bar class="main-header" height="64" fixed flat light secondary color="light">
     <v-btn icon class="mx-1" @click.stop="TOGGLE_DRAWER">
       <template v-if="DRAWER_STATE">
         <v-icon style="font-size: 28px">mdi-arrow-left</v-icon>
@@ -8,7 +8,14 @@
         <v-icon style="font-size: 28px">mdi-menu</v-icon>
       </template>
     </v-btn>
-    <v-toolbar-title>Tasks</v-toolbar-title>
+    <div class="d-sm-logo">
+              <a @click="toHome()">
+                <img
+                  height="30"
+                  :src="require('@/assets/img/Final-logo.svg')"
+                />
+              </a>
+            </div>
     <v-spacer></v-spacer>
 
     <Search />
@@ -23,6 +30,8 @@
           v-on="on"
           style="font-size: 28px"
           icon
+          dark
+          color="light"
           class="mr-2"
         >
           <v-badge
@@ -31,7 +40,7 @@
             content="4"
             overlap
           >
-            <v-icon style="font-size: 28px" color="rgba(255, 255, 255, 0.35)"
+            <v-icon style="font-size: 28px" color="#000"
               >mdi-bell-outline</v-icon
             >
           </v-badge>
@@ -112,7 +121,7 @@
         </div>
       </v-list>
     </v-menu>
-    <v-menu min-width="180" offset-y bottom left nudge-bottom="10">
+    <v-menu min-width="220" offset-y bottom left nudge-bottom="10">
       <template v-slot:activator="{ on, attrs }">
         <v-btn class="mr-0" icon v-bind="attrs" v-on="on">
           <v-icon style="font-size: 28px" :color="config.light.iconColor"
@@ -121,11 +130,8 @@
         </v-btn>
       </template>
       <v-list>
-        <div class="text-h5 grey--text text--darken-3 px-4 pt-4">
+        <div class="text-h6 grey--text text--darken-3 px-4 pt-4">
           John Smith
-        </div>
-        <div class="subtitle-2 primary--text font-weight-regular px-4">
-          Flatlogic.com
         </div>
         <v-list-item-group color="primary">
           <v-list-item v-for="(item, i) in account" :key="i">
@@ -140,7 +146,7 @@
             </v-list-item-content>
           </v-list-item>
         </v-list-item-group>
-        <div class="d-flex justify-center my-3">
+        <div class="d-flex justify-center my-1">
           <v-btn
             width="80%"
             large
@@ -159,7 +165,7 @@
 <script>
 import { mapActions, mapState } from "vuex";
 import config from "@/config";
-import Search from "@/components/Search/Search";
+import Search from "@/components/Backend/Search/Search";
 
 export default {
   name: "Header",

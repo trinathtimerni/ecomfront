@@ -1,54 +1,21 @@
 <template>
-  <v-form ref="form" v-model="valid" lazy-validation class="mt-5">
-    <h4>Add New Product</h4>
+  <v-form ref="form" @submit.prevent="save" v-model="valid" lazy-validation enctype="multipart/form-data" class="mt-2">
+    <v-card class="pa-5">
+      <div class="card-body">
+    <fieldset class="form-group border py-1 px-3">
+      <legend class="w-auto px-2" style="float:none; font-size:21px;">Add New Product:</legend>
+    
+      
     <v-row>
-      <v-col md="6" cols="12">
-        <v-card class="pa-2">
+      <v-col md="4" cols="12">
           <v-text-field
-            v-model="product.title"
-            :error-messages="errors.title"
-            height="40"
+            v-model="product.name"
+            :error-messages="errors.name"
             label="Title"
             required
           ></v-text-field>
-          <v-select
-            v-model="product.category_id"
-            :error-messages="errors.category_id"
-            :items="categories"
-            item-text="title"
-            item-value="id"
-            label="Category"
-            required
-          ></v-select>
-
-          <v-text-field
-            v-model="product.product_code"
-            :error-messages="errors.product_code"
-            label="Product Code"
-            required
-          ></v-text-field>
-          <v-select
-            v-model="product.brand_id"
-            :error-messages="errors.brand_id"
-            :items="brands"
-            item-text="title"
-            item-value="id"
-            label="Brand"
-            required
-          ></v-select>
-          <v-select
-            v-model="product.featured"
-            :error-messages="errors.featured"
-            :items="is_Featureds"
-            item-text="text"
-            item-value="value"
-            label="Display options"
-            required
-          ></v-select>
-        </v-card>
       </v-col>
-      <v-col md="6" cols="12">
-        <v-card class="pa-2">
+      <v-col md="4" cols="12">
           <v-text-field
             label="Price"
             required
@@ -56,14 +23,48 @@
             v-model="product.price"
             :error-messages="errors.price"
           ></v-text-field>
-
-          <v-text-field
-            label="Amount "
-            type="number"
-            v-model="product.amount"
+      </v-col>
+      <v-col md="4" cols="12">
+        <v-select
+            v-model="product.category_id"
+            :error-messages="errors.category_id"
+            :items="categories"
+            item-text="name"
+            item-value="id"
+            label="Category"
             required
-            :error-messages="errors.amount"
+          ></v-select>
+      </v-col>
+
+          <v-col md="5" cols="12">
+          <v-text-field
+            v-model="product.short_description"
+            :error-messages="errors.short_description"
+            label="Short Description"
+            required
           ></v-text-field>
+      </v-col>
+      <v-col md="3" cols="12">
+          <v-text-field
+            label="Quantity"
+            required
+            type="number"
+            v-model="product.quantity"
+            :error-messages="errors.quantity"
+          ></v-text-field>
+      </v-col>
+      <v-col md="4" cols="12">
+        <v-select
+            v-model="product.brand_id"
+            :error-messages="errors.brand_id"
+            :items="brands"
+            item-text="name"
+            item-value="id"
+            label="Brand"
+            required
+          ></v-select>
+      </v-col>
+      <v-col md="8" cols="12">
           <v-textarea
             name="input-10-1"
             v-model="product.description"
@@ -71,105 +72,39 @@
             label="Description"
             :error-messages="errors.description"
           ></v-textarea>
-          <v-file-input
-            multiple
+      </v-col>
+      <v-col md="4" cols="12">
+        <v-file-input
+            type="file"
             v-model="files"
+            @change="ProductImagePreview"
             required
             :error-messages="errors.image"
-            label="Product Photos (Select multiple images)"
+            label="Product Photo"
           ></v-file-input>
-        </v-card>
-      </v-col>
-      <v-col md="12" cols="12">
-        <v-card class="pa-2">
-          <v-card-title>Discount details</v-card-title>
-          <v-row>
-            <v-col md="4" cols="12">
-              <v-text-field
-                label="Discount "
-                :error-messages="errors.title"
-                v-model="product.discount"
-                required
-                type="number"
-              ></v-text-field>
-            </v-col>
-            <v-col md="4" cols="12">
-              <v-menu
-                ref="menu"
-                v-model="menu"
-                :close-on-content-click="false"
-                :return-value.sync="product.discount_start_date"
-                transition="scale-transition"
-                offset-y
-                min-width="auto"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                    v-model="product.discount_start_date"
-                    label="Discount start date"
-                    prepend-icon="mdi-calendar"
-                    :error-messages="errors.title"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
-                  ></v-text-field>
-                </template>
-                <v-date-picker v-model="product.discount_start_date" no-title scrollable>
-                  <v-spacer></v-spacer>
-                  <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-                  <v-btn
-                    text
-                    color="primary"
-                    @click="$refs.menu.save(product.discount_start_date)"
-                  >OK</v-btn>
-                </v-date-picker>
-              </v-menu>
-            </v-col>
-            <v-col md="4" cols="12">
-              <v-menu
-                ref="menu1"
-                v-model="menu1"
-                :close-on-content-click="false"
-                :return-value.sync="product.discount_end_date"
-                transition="scale-transition"
-                offset-y
-                min-width="auto"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                    v-model="product.discount_end_date"
-                    label="Discount end date"
-                    :error-messages="errors.discount_end_date"
-                    prepend-icon="mdi-calendar"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
-                  ></v-text-field>
-                </template>
-                <v-date-picker v-model="product.discount_end_date" no-title scrollable>
-                  <v-spacer></v-spacer>
-                  <v-btn text color="primary" @click="menu1 = false">Cancel</v-btn>
-                  <v-btn
-                    text
-                    color="primary"
-                    @click="$refs.menu1.save(product.discount_end_date)"
-                  >OK</v-btn>
-                </v-date-picker>
-              </v-menu>
-            </v-col>
-          </v-row>
-        </v-card>
+          <div id="image_preview">
+            <div class="mb-1" v-if="url">
+                <img class="img-thumbnail" style="height:150px; width:180px" :src="url" alt=""/>
+            </div>
+            
+          </div>
       </v-col>
     </v-row>
+    
 
     <v-btn
+      type="submit"
       color="primary"
       class="mr-4 mt-4"
-      @click="save"
       :loading="loading"
       :disabled="loading"
     >Submit</v-btn>
+    
+    </fieldset>
+    </div>
+    </v-card>
   </v-form>
+
 
   <!-- </v-card> -->
 </template>
@@ -182,46 +117,50 @@ export default {
     loader: null,
     loading: false,
     menu: false,
+    url:null,
     menu1: false,
-    is_Featureds: [
-      { value: 0, text: "No" },
-      { value: 1, text: "Yes" },
-    ],
     product: {
-      title: "",
+      name: "",
+      short_description: "",
       description: "",
       price: "",
-      amount: "",
-      discount: "",
-      discount_start_date: "",
-      discount_end_date: "",
+      quantity: "",
       category_id: "",
-      product_code: "",
       brand_id: "",
-      featured: 0,
     },
     features: [],
     files: [],
   }),
   created() {
-    this.Data();
-    this.BrandData();
+    this.GetCats();
+    this.getBrands();
   },
   computed: {
     ...mapState("category", ["categories"]),
     ...mapState("brand", ["brands"]),
   },
   methods: {
-    ...mapActions("category", ["Data"]),
-    ...mapActions("brand", ["BrandData"]),
+    ...mapActions("category", ["GetCats"]),
+    ...mapActions("brand", ["getBrands"]),
     save() {
+      let isValidate = true;
+      this.$refs.form.validate();
+      this.$refs.form.inputs.forEach((input) => {
+        if (input.hasError) {
+          isValidate = false;
+        }
+      });
+      if (!isValidate) {
+        return;
+      }
       this.loading = true;
-      const dataToSend = {};
-      dataToSend.product = this.product;
-      dataToSend.features = this.features;
-      dataToSend.files = this.files;
+      let formData = new FormData();
+    formData.append('image',this.files);
+    for (let field in this.product) {
+        formData.append(field, this.product[field]);
+      }
       this.$store
-        .dispatch("product/Created", this.toFormData(dataToSend))
+        .dispatch("product/AddProduct", formData)
         .then(() => {
           this.loading = false;
 
@@ -233,26 +172,18 @@ export default {
           this.loading = false;
         });
     },
-    toFormData(payload) {
-      const formData = new FormData();
-      for (let field in payload.product) {
-        formData.append(field, payload.product[field]);
-      }
-      for (let i = 0; i < payload.features.length; i++) {
-        formData.append(
-          "features[" + payload.features[i].field_id + "]",
-          payload.features[i].field_value
-        );
-      }
-      for (let i = 0; i < payload.files.length; i++) {
-        formData.append("image[" + i + "]", payload.files[i]);
-      }
-
-      return formData;
-    },
     reset() {
       this.$refs.form.reset();
     },
+    ProductImagePreview(payload) {
+      const file = payload;
+      if (file) {
+        this.url = URL.createObjectURL(file);
+        URL.revokeObjectURL(file); // free memory
+      } else {
+        this.url =  null
+      }
+    }
   },
 };
 </script>
