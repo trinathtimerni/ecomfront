@@ -106,13 +106,13 @@ export default {
         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
     }),
     async created(){
-      this.getOrders();
+      this.getUserOrders();
     },
     computed:{
       ...mapState("order", ["orders"]),
     },
     methods: {
-      ...mapActions("order", ["getOrders"]),
+      ...mapActions("order", ["getUserOrders"]),
       cancelOrder(id,status) {
       if (confirm("Are you sure you want to cancel this order?")) {
           let order = {

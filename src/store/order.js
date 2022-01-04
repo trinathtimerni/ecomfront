@@ -46,6 +46,24 @@ export default {
                 });
             });
           },
+          getUserOrders({ commit }) {
+            axios.defaults.headers.common["Authorization"] = "Bearer " + localStorage.getItem("auth_token");
+              return new Promise((resolve, reject) => {
+              //   let user = localStorage.getItem("user_data")
+              //   if(user != null){
+              //     user = user.id;
+              //   }
+                  axios.get('api/get_user_orders')
+              .then(res => {
+                  console.log(res.data)
+                  resolve(res);
+                    commit("populateOrders",res.data.orders.data);
+              })
+                  .catch((error) => {
+                    reject(error);
+                  });
+              });
+            },
           addOrder({ commit }, data) {
             return new Promise((resolve, reject) => {
               axios
