@@ -39,7 +39,7 @@ export default {
             .then(res => {
                 console.log(res.data)
                 resolve(res);
-                  commit("populateOrders",res.data);
+                  commit("populateOrders",res.data.orders.data);
             })
                 .catch((error) => {
                   reject(error);
@@ -54,6 +54,23 @@ export default {
                   console.log(result)
                   resolve(result);
                   commit("SaveOrder");
+                })
+                .catch((error) => {
+                  reject(error);
+                });
+            });
+          },
+          accept({ commit }, order) {
+            return new Promise((resolve, reject) => {
+              axios
+                .post('/api/order/accept',{
+                  order_id: order.id,
+                  status: order.status,
+                })
+                .then((result) => {
+                  console.log(result)
+                  resolve(result);
+                  commit("ShowOrder", result.data);
                 })
                 .catch((error) => {
                   reject(error);

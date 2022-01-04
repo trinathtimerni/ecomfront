@@ -1,7 +1,7 @@
 <template>
   <v-footer class="px-0" color="transparent">
     <v-container class="pa-0">
-      <v-row no-gutters class="pa-0">
+      <div class="pa-0 d-flex justify-content-space-between" style="margin-left:10%">
         <div>
           <v-btn
             v-for="(link, linki) in links"
@@ -24,7 +24,7 @@
             <v-icon size="24px">{{ icon.icon }}</v-icon>
           </v-btn>
         </div>
-      </v-row>
+      </div>
     </v-container>
   </v-footer>
 </template>

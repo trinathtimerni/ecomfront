@@ -80,13 +80,6 @@
               ></v-text-field>
               <label class="mb-3 delivery-label">Phone Number: </label>
               <div class="d-flex" style="width:70%">
-                <v-select dense class="mr-3"
-          :items="countries" v-model="country_code"
-          label="Select Country Code"
-          :item-value="item => item.id"
-          :item-text="item => '+'+ item.phonecode+' ( '+item.nicename+' )'"
-          outlined
-        ></v-select>
                 <v-text-field
                 :rules="rules"
                   v-model="phone"
@@ -111,14 +104,7 @@
               </div>
               <a @click="manualAddress()"><p>Enter Address Manually</p></a>
               <div v-if="manual">
-                  <label class="mb-3 delivery-label"
-                >Country
-              </label>
-                  <v-select dense
-          :items="countries" v-model="country"
-          item-text="nicename"
-          outlined
-        ></v-select>
+              
         <label class="mb-3 delivery-label"
                 >House Name/ Number
               </label>
@@ -235,21 +221,6 @@
             <h5 class="my-6 review-title">
                 Delivery Method
               </h5>
-              <div class="delivery_body">
-              <div>
-                  <label for="delivery_in" class="delivery_label" v-for="delivery in delivery_types" :key="delivery.id">
-                      <div class="d-flex delivery_header">
-                          <v-radio-group class="mt-0 mb-0" v-model="method">
-                          <v-radio color="black" :value="delivery.id"></v-radio>
-                          </v-radio-group>
-                          <p class="mt-1">{{delivery.name}} within {{delivery.time}} {{delivery.period}} $ {{delivery.price}}</p>
-                        </div>
-                        <div class="ml-3 mt-2">
-                            {{delivery.description}}
-                        </div>
-                  </label>
-              </div>
-              </div>
               <div class="mt-4">
                 <button class="review-btn" @click="review()">
                   Continue to Payment
@@ -285,24 +256,10 @@
               <h5 class="review-title">
                 Delivery Method
               </h5>
-              <div>
-                <p>{{main_delivery.name}} within {{main_delivery.time}} {{main_delivery.period}} $ {{main_delivery.price}}</p>
-                <p>{{main_delivery.description}}</p>
-              </div>
+              
             </v-col>
-            <div class="mt-3 promotion" @click="promotion = true">
-              <p>Add a Promotional Code (optional)</p>
-            </div>
-            <div class="d-flex" style="width:50%" v-if="promotion">
-              <v-text-field class="mt-2"
-                v-model="apply"
-                dense
-                style="border-radius: 0px; width:10%"
-                required
-                outlined
-              ></v-text-field>
-              <a class="apply-btn" @click="checkCoupon()">Apply</a>
-            </div>
+            
+            
             <div>
               <h5 class="my-6 review-title">
                 Choose Your Payment Method
@@ -331,7 +288,7 @@
             <p class="mb-2 mt-4">
             Basket Total:
             <span class="border-none ml-3 float-right">
-              $ {{ carts.reduce((acc, item) => acc + item.cart_price, 0) }}
+              $ {{ carts.reduce((acc, item) => acc + item.price, 0) }}
             </span>
           </p>
             </div>
@@ -339,7 +296,7 @@
           <p class="mb-2 mt-4">
             Delivery Charge:
             <span class="border-none ml-3 float-right">
-              {{this.delivery_charge}}
+              0
             </span>
           </p>
             </div>
@@ -470,13 +427,6 @@
               ></v-text-field>
               <label class="mb-3 delivery-label">Phone Number: </label>
               <div class="d-flex" style="width:70%">
-                <v-select dense class="mr-3"
-          :items="countries" v-model="country_code"
-          label="Select Country Code"
-          :item-value="item => item.id"
-          :item-text="item => '+'+ item.phonecode+' ( '+item.nicename+' )'"
-          outlined
-        ></v-select>
                 <v-text-field
                 :rules="rules"
                   v-model="phone"
@@ -501,14 +451,7 @@
               </div>
               <a @click="manualAddress()"><p>Enter Address Manually</p></a>
               <div v-if="manual">
-                  <label class="mb-3 delivery-label"
-                >Country
-              </label>
-                  <v-select dense
-          :items="countries" v-model="country"
-          item-text="nicename"
-          outlined
-        ></v-select>
+                  
         <label class="mb-3 delivery-label"
                 >House Name/ Number
               </label>
@@ -578,13 +521,13 @@
           <v-container class="mt-4">
 	      <v-row>
         <div class="jumbotron" v-if="finish">
-            <h2 class="text-center">YOUR ORDER HAS BEEN RECEIVED</h2>
-          <h3 class="text-center" v-if="payment">Thank you for your payment, it’s processing</h3>
+            <h4 class="text-center">YOUR ORDER HAS BEEN RECEIVED</h4>
+          <h5 class="text-center" v-if="payment">Thank you for your Order, it’s pending</h5>
           
           <p class="text-center">Your order # is: {{confirm.order.order_id}}</p>
           <p class="text-center">You will receive an order confirmation email with details of your order and a link to track your process.</p>
             <center><div class="btn-group mt-6">
-                <a href="#" class="btn btn-lg btn-warning">Finish</a>
+                <a @click="$router.push('/')" class="btn btn-lg btn-warning">Finish</a>
             </div></center>
         </div>
         </v-row>
@@ -698,31 +641,29 @@ export default {
     phone: "",
     address: "",
     address1: "",
+    city:"",
+    post_code:"",
     collection_point: "",
     rules: [
       (value) => !!value || "This Field Required.",
-      (v) => v.length >= 5 || "Requires Min 8 characters",
+      (v) => v.length >= 2 || "Requires Min 2 characters",
     ],
   }),
 async created() {
     this.getCarts();
     this.getUser();
     this.getAddresses();
-    this.getDeliveryTypes();
     this.checkAddress();
   },
   computed: {
     ...mapState("cart", ["carts"]),
     ...mapState("homepage", ["user"]),
     ...mapState("address",["addresses"]),
-    ...mapState("category", ["countries"]), 
-    ...mapState("product", ["delivery_types"]), 
   },
   methods: {
     ...mapActions("cart", ["getCarts"]),
     ...mapActions("homepage", ["getUser"]),
     ...mapActions("address", ["getAddresses"]),
-    ...mapActions("category",["getCountries"]),
     ...mapActions("product",["getDeliveryTypes"]),
     deliveryCheck() {
       this.getAddresses()
@@ -747,19 +688,7 @@ async created() {
       }
       
     },
-    checkCoupon()
-    {
-      if(this.apply == null){
-        alert("Product Coupon/Discount code cannot be Empty")
-      }
-      else{
-        this.$store.dispatch("",this.apply).then(
-          response=>{
-            
-          }
-        )
-      }
-    },
+    
     useAddress(address)
     {
       this.new_addresses = address
@@ -768,11 +697,9 @@ async created() {
     review(){
       this.step = 2
       console.log(this.method)
-      let delivery = this.delivery_types.filter((delivery) =>delivery.id == this.method)
-      console.log(delivery)
-      this.main_delivery = delivery[0]
-      this.delivery_charge = delivery[0].price
-      this.total = parseFloat(this.carts.reduce((acc, item) => acc + item.cart_price, 0)) + parseFloat(this.delivery_charge)
+
+      this.delivery_charge = 0
+      this.total = parseFloat(this.carts.reduce((acc, item) => acc + item.price, 0)) + parseFloat(this.delivery_charge)
     },
     ordersubmit()
     {
@@ -875,7 +802,6 @@ async created() {
         post_code: this.post_code
       };
       this.$store.dispatch("address/AddAddress",data).then(
-          this.$router.push("/address_book")
       )
       this.new_addresses = data;
       console.log(this.new_addresses);
@@ -978,8 +904,8 @@ async created() {
     margin-top: 3px;
 }
 .pay-btn{
-    background-color: #000;
-    padding: 20px!important;
+    background-color: #000!important;
+    padding: 10px 20px!important;
     color: #fff!important;
     font-size: 14px;
     max-height: 45px;

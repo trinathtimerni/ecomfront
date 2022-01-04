@@ -15,27 +15,14 @@
                 <div class="py-3 account-sidebar" @click="myDetails()">
                 <v-icon color="#888888" class="mr-4">mdi-account</v-icon>    My Details
                 </div>
-                <div class="py-3 account-sidebar">
-                <v-icon color="#888888" class="mr-4">mdi-credit-card-check-outline</v-icon>    Card Management
-                </div>
-                <div class="py-3 account-sidebar"  @click="wishList()">
-                <v-icon color="#888888" class="mr-4">mdi-heart-outline</v-icon>    Wish List
-                </div>
+
                 <div class="py-3 account-sidebar" @click="AddressBook()">
                 <v-icon color="#888888" class="mr-4">mdi-home-outline</v-icon>    Address Book
                 </div>
                 <div class="py-3 account-sidebar" @click="myOrders()">
                 <v-icon color="#888888" class="mr-4">mdi-calendar-month-outline</v-icon>    Recent Orders
                 </div>
-                <div class="py-3 account-sidebar">
-                <v-icon color="#888888" class="mr-4">mdi-archive</v-icon>    Reorders
-                </div>
-                <div class="py-3" style="border-top: 1px solid #DDD; font-weight: 300">
-                <v-icon color="#888888" class="mr-4">mdi-face-agent</v-icon>    My Cases
-                </div>
-                <div class="py-3" style="">
-                <v-icon color="#888888" class="mr-4">mdi-help-circle-outline</v-icon>    Help
-                </div>
+
             </div>
         </div>
      </div>

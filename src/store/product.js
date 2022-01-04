@@ -85,7 +85,6 @@ export default {
 
     actions: {
         getCategoryProducts({ commit }, Apiarg) {
-            commit('LOADER',true)
             return new Promise((resolve, reject) => {
                 axios.post('api/product/get_category_products',Apiarg)
             .then(res => {
@@ -101,55 +100,44 @@ export default {
             });
           },
           updateSearchProducts({commit},newSearchProducts){
-            commit('LOADER',true)
             return new Promise((resolve, reject) => {
                   commit("populateSearchProducts",newSearchProducts);
-                  commit('LOADER',false)
             });
           },
           getDepartmentProducts({ commit }, Apiarg) {
-            commit('LOADER',true)
             return new Promise((resolve, reject) => {
                 axios.post('api/product/get_department_products',Apiarg)
             .then(res => {
                 console.log(res.data)
                 resolve(res);
                   commit("populateDepartmentProduct",res.data);
-                  commit('LOADER',false)
             })
                 .catch((error) => {
-                    commit('LOADER',false)
                   reject(error);
                 });
             });
           },
           getBrandProducts({ commit }, Apiarg) {
-            commit('LOADER',true)
-            console.log(Apiarg)
             return new Promise((resolve, reject) => {
                 axios.post('api/product/get_brand_products',Apiarg)
             .then(res => {
                 console.log(res.data)
                 resolve(res);
                   commit("populateBrandProduct",res.data);
-                  commit('LOADER',false)
             })
                 .catch((error) => {
-                    commit('LOADER',false)
                   reject(error);
                 });
             });
           },
           getProductsGalleryImages({ commit }, Apiarg)
           {
-            commit('LOADER',true)
             return new Promise((resolve, reject) => {
                 axios.post('api/product/get_product_gallery_images',Apiarg)
             .then(res => {
                 console.log(res.data)
                 resolve(res);
                   commit("populateProductGalleryImages",res.data);
-                  commit('LOADER',false)
             })
             
                 .catch((error) => {
@@ -159,18 +147,14 @@ export default {
           },
           getProductDetails({ commit }, Apiarg)
           {
-            commit('LOADER',true)
             return new Promise((resolve, reject) => {
                 axios.get('api/product/get_product_details/'+Apiarg)
             .then(res => {
-                console.log("main data paichi",res.data)
                 resolve(res);
                   commit("populateProductDetails",res.data);
-                  commit('LOADER',false)
             })
                 .catch((error) => {
                   reject(error);
-                  commit('LOADER',false)
                 });
             });
           },

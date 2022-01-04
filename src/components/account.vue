@@ -11,37 +11,6 @@
                         <div class="px-3" style="border-top: 1px solid #DDD">
                             <div class="py-5">
                                 <div class="py-1" style="font-size: 14px; font-weight: 600">
-                                    Shopping History
-                                </div>
-                                <div class="py-1 pb-2" style="font-size: 14px; font-weight: 300">
-                                    Some people never go crazy. What truly horrible lives they must lead.
-                                </div>
-                                <div class="py-1" style="font-size: 14px; font-weight: 300">
-                                    <div style="text-decoration: underline">Fulfill Your dream</div>
-                                    <div style="text-decoration: underline">While Dream comes true</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="px-3" style="border-top: 1px solid #DDD">
-                            <div class="py-5">
-                                <div class="py-1" style="font-size: 14px; font-weight: 600">
-                                    Address Book
-                                </div>
-                                <div class="py-1 pb-2" style="font-size: 14px; font-weight: 300">
-                                    View and manage addresses, edit your contact address and add new addresses.
-                                </div>
-                                <div class="py-1" style="font-size: 14px; font-weight: 300">
-                                    <div style="text-decoration: underline" @click="AddressBook()">View Address Book</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 d-flex flex-column">
-                        <div class="px-3" style="border-top: 1px solid #DDD">
-                            <div class="py-5">
-                                <div class="py-1" style="font-size: 14px; font-weight: 600">
                                     My Details
                                 </div>
                                 <div class="py-1 pb-2" style="font-size: 14px; font-weight: 300">
@@ -52,52 +21,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="px-3" style="border-top: 1px solid #DDD">
-                            <div class="py-5">
-                                <div class="py-1" style="font-size: 14px; font-weight: 600">
-                                    Become Classpicker Member
-                                </div>
-                                <div class="py-1 pb-2" style="font-size: 14px; font-weight: 300">
-                                    Some people never go crazy. What truly horrible lives they must lead.
-                                </div>
-                                <div class="py-1" style="font-size: 14px; font-weight: 300">
-                                    <div style="text-decoration: underline">While Dream comes true</div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
-                <div class="my-5 px-2 py-2" style="background-color: #DDD">
-                    <div class="text-center" style="font-size: 14px; font-weight: 600; letter-spacing: 1px">
-                        FREQUENTLY ASKED QUESTION
-                    </div>
-                    <div class="d-flex flex-row flex-wrap justify-content-between">
-                        <div class="col-md-6 px-2">
-                            <div class="py-1" style="font-size: 14px; font-weight: 600">
-                                    Process of refund
-                            </div>
-                            <div class="py-1 pb-2" style="font-size: 14px; font-weight: 300">
-                                    Some people never go crazy. What truly horrible lives they must lead.
-                                </div>
-                                <div class="py-1" style="font-size: 14px; font-weight: 300">
-                                    <div style="text-decoration: underline">Fulfill Your dream</div>
-                                    <div style="text-decoration: underline">While Dream comes true</div>
-                                </div>
-                        </div>
-                        <div class="col-md-6 px-2">
-                            <div class="py-1" style="font-size: 14px; font-weight: 600">
-                                    Process of refund
-                            </div>
-                            <div class="py-1 pb-2" style="font-size: 14px; font-weight: 300">
-                                    Some people never go crazy. What truly horrible lives they must lead.
-                                </div>
-                                <div class="py-1" style="font-size: 14px; font-weight: 300">
-                                    <div style="text-decoration: underline">Fulfill Your dream</div>
-                                    <div style="text-decoration: underline">While Dream comes true</div>
-                                </div>
-                        </div>
-                    </div>                    
-                </div>
+                
             </div>
         </div>        
     </div>

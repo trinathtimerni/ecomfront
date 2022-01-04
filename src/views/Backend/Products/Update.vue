@@ -3,7 +3,7 @@
     <v-card class="pa-5">
       <div class="card-body">
     <fieldset class="form-group border py-1 px-3">
-      <legend class="w-auto px-2" style="float:none; font-size:21px;">Add New Product:</legend>
+      <legend class="w-auto px-2" style="float:none; font-size:21px;">Edit Product:</legend>
     
       
     <v-row>

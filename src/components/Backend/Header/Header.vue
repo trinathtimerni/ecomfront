@@ -153,7 +153,7 @@
             outlined
             color="primary"
             class="text-capitalize"
-            @click="logOut"
+            @click="logout"
             >Sign Out</v-btn
           >
         </div>
@@ -243,7 +243,12 @@ export default {
   },
   methods: {
     ...mapActions("adminlayout", ["TOGGLE_DRAWER"]),
-     
+    logout: function() {
+      localStorage.removeItem("auth_token");
+      localStorage.removeItem("is_authenticated");
+      localStorage.removeItem("user_data");
+      this.$router.push("/login");
+    },     
   },
 };
 </script>

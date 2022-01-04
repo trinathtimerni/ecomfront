@@ -29,7 +29,7 @@
                     small
                     class="mr-2"
                     link
-                    :to="'/dashboard/category-update/'+item.id"
+                    :to="'/dashboard/edit_category/'+item.id"
                   >
                     <v-icon small>mdi-pencil</v-icon>
                   </v-btn>
@@ -89,7 +89,7 @@ export default {
           .dispatch("category/Delete", id)
           .then((res) => {
             this.message = res.data.message;
-            this.Data();
+            this.GetCats();
           })
           .catch(() => {});
       }

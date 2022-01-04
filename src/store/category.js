@@ -60,6 +60,9 @@
             let category = state.categories.filter((product) => product.slug == category_id)
             state.category = category
         },
+        SHOW(state, category) {
+            state.category = category;
+          },
         populateCountries(state,newCountries){
             state.countries = newCountries;
         },
@@ -69,6 +72,8 @@
         Category_Data(state, categories){
             state.categories = categories;
         },
+        CREATED(state) {},
+        UPDATED(state) {},
         LOADER(state,payload){
             state.loader = payload;
         }
@@ -85,6 +90,32 @@
                 ctx.commit('populateCategoryBrands', response.data);
             })
         },
+        AddCategory({ commit }, data) {
+            return new Promise((resolve, reject) => {
+              axios
+                .post("/api/category", data)
+                .then((result) => {
+                  resolve(result);
+                  commit("CREATED");
+                })
+                .catch((error) => {
+                  reject(error);
+                });
+            });
+          },
+        UpdateCategory({ commit }, data) {
+            return new Promise((resolve, reject) => {
+              axios
+                .post("/api/category_update", data)
+                .then((result) => {
+                  resolve(result);
+                  commit("UPDATED");
+                })
+                .catch((error) => {
+                  reject(error);
+                });
+            });
+          },
 
         GetCats({ commit }) {
             return new Promise((resolve, reject) => {
@@ -110,7 +141,34 @@
         async getCategoryPrice(ctx,apiArg)
         {
             ctx.commit('populateCategoryPrice',apiArg)
-        }
+        },
+        Show({ commit }, id) {
+            return new Promise((resolve, reject) => {
+              console.log(id);
+              axios
+                .get("/api/category/" + id)
+                .then((result) => {
+                  resolve(result);
+                  commit("SHOW", result.data.category);
+                })
+                .catch((error) => {
+                  reject(error);
+                });
+            });
+          },
+          Delete({ commit }, id) {
+            return new Promise((resolve, reject) => {
+              axios
+                .delete("/api/category/" + id)
+                .then((result) => {
+                  resolve(result);
+                  commit("SHOW", result.data.category);
+                })
+                .catch((error) => {
+                  reject(error);
+                });
+            });
+          },
         
     }
 }

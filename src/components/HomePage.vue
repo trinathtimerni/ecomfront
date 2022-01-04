@@ -103,7 +103,6 @@ export default {
         this.quickViewModal = true
       }
       else{
-      // this.loading = true
       if (localStorage.getItem("auth_token") != null) {
         let user = JSON.parse(localStorage.getItem("user_data"));
         console.log(user)
@@ -128,12 +127,10 @@ export default {
       this.$store
         .dispatch("cart/AddCart", data)
         .then(() => {
-          // this.loading = false
           localStorage.setItem("guest_id",this.guest_id)
           this.getCarts();
         })
         .catch(() => {
-          // this.loading = false
         });
       }
     },

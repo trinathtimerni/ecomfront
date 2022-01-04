@@ -30,9 +30,6 @@
         Order List
       </v-tab>
       <v-tab>
-        Buy Again
-      </v-tab>
-      <v-tab>
         Cancel Order
       </v-tab>
     </v-tabs>
@@ -47,27 +44,33 @@
             <div v-if="orders.length">
             <v-row v-for="order in orders" :key="order.id">
                 <div class="col-md-9 p-5 pt-5 pb-2" >
-                    <h6 class="pb-1">Delivered Yesterday</h6>
+                    <p class="pb-1"><strong>Order Date: {{$moment(order.created_at).format('MMMM Do YYYY') }}</strong></p>
                     <div class="d-flex">
-                        <div class="image-item">
-                            <img :src="`${baseEnvLocal}${order.main_image}`">
-                        </div>
                         <div class="item-content">
-                            <a>this is test item and this is test item</a>
-                            <p>this is another test product</p>
-                            <div class="d-flex">
-                                <button class="mr-2 order-view-btn">Buy it Again</button>
-                                <v-spacer></v-spacer>
-                                <button type="button" class="order-btn">View your Item</button>
-                            </div>
+                            <a> Order Id: {{order.order_id}}, Current Status <span v-if="order.status == 0">
+                <span class="btn-warning pa-1 text-white" color="primary">Pending</span></span>
+                <span v-else-if="order.status == 1">
+                <span class="btn-success pa-1" color="primary">Approved</span></span>
+                <span v-else-if="order.status == 2">
+                <span class="btn-success pa-1" color="primary">Processing</span></span>
+                <span v-else-if="order.status == 3">
+                <span class="btn-success pa-1" color="primary">Shipped</span></span>
+                <span v-else-if="order.status == 4">
+                <span class="btn-success pa-1" color="primary">Delivered</span></span>
+                    <span v-else-if="order.status == 5">
+                <span class="btn-danger" color="primary">Rejected</span></span>
+                 </a>
+                            <p> Total Amount: {{order.total}}</p>
+                            <p> Payment Status: {{order.payment_status}}</p>
+                            <p> Number of Products: {{order.order_details.length}}</p>
                         </div>
                     </div>
                     
                 </div>
                 <div class="col-md-3">
+                    <button class="my-1 order-btn" @click="cancelOrder(order.id,5)" v-if="order.status == 0">Cancel</button>
                     <button class="my-1 order-btn">Buy it Again</button>
-                    <button class="my-1 order-btn">Buy it Again</button>
-                    <button class="my-1 order-btn">Buy it Again</button>
+                    <button class="my-1 order-btn">View Item</button>
                 </div>
             </v-row>
             </div>
@@ -75,10 +78,9 @@
         </v-card>
       </v-tab-item>
       <v-tab-item>
-        this is test
       </v-tab-item>
       <v-tab-item>
-        this is another test
+
       </v-tab-item>
     </v-tabs-items>
   </v-card>
@@ -111,6 +113,21 @@ export default {
     },
     methods: {
       ...mapActions("order", ["getOrders"]),
+      cancelOrder(id,status) {
+      if (confirm("Are you sure you want to cancel this order?")) {
+          let order = {
+              id:id,
+              status:status
+          }
+        this.$store
+          .dispatch("order/accept", order)
+          .then((res) => {
+            this.message = res.data.message;
+            location.reload(true);
+          })
+          .catch(() => {});
+      }
+    },
     }
 }
 </script>
@@ -125,6 +142,10 @@ export default {
   padding:4px 20px!important;
   color: #000!important;
   text-transform: none!important;
+}
+.item-content p{
+  margin-bottom:2px;
+  font-family: cursive;
 }
 .image-item img{
   max-height:97px;

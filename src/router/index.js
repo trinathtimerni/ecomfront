@@ -141,6 +141,18 @@ const routes = [
         name: "AddCategory",
         component: () => import('../views/Backend/Categories/Add.vue')
       },
+      {
+        meta: { title: "Edit Category", requiresAuth: true, is_admin: true },
+        path: "/dashboard/edit_category/:id?",
+        name: "EditCategory",
+        component: () => import('../views/Backend/Categories/Update.vue')
+      },
+      {
+        meta: { title: "Orders", requiresAuth: true, is_admin: true },
+        path: "/dashboard/orders",
+        name: "orderList",
+        component: () => import('../views/Backend/Orders/Index.vue')
+      },
 
     ]
   }
